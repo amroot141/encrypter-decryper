@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cipher Encryption and Decryption</title>
+  </head>
+    
+<body>
+    <div class="container">
+        <h2>Cipher Encryption and Decryption</h2>
+        
+        <label for="selectedCipher">Select a Cipher:</label>
+        <select id="selectedCipher">
+            <option value="caesar">Caesar Cipher</option>
+            <option value="atbash">Atbash Cipher</option>
+            <option value="rot13">ROT13 Cipher</option>
+            <!-- Vigenere cipher not supported in this example -->
+        </select>
+
+        <label for="messageToProcess">Enter the message:</label>
+        <textarea id="messageToProcess" rows="4"></textarea>
+        
+        <button id="encryptButton">Encrypt</button>
+        <button id="decryptButton">Decrypt</button>
+        <button id="clearButton">Clear</button> <!-- Clear button added -->
+
+        <div class="cipher-chart" id="caesarChart"></div>
+        <div class="cipher-chart" id="atbashChart"></div>
+        <div class="cipher-chart" id="rot13Chart"></div>
+        <!-- Vigenere cipher chart not provided -->
+
+        <label for="outputMessage">Result:</label>
+        <textarea id="outputMessage" rows="4" readonly></textarea>
+    </div>
+
+    <script>
+        // Define cipher charts
+        const caesarChart = {
+            'A': 'D', 'B': 'E', 'C': 'F', 'D': 'G', 'E': 'H', 'F': 'I', 'G': 'J',
+            'H': 'K', 'I': 'L', 'J': 'M', 'K': 'N', 'L': 'O', 'M': 'P', 'N': 'Q',
+            'O': 'R', 'P': 'S', 'Q': 'T', 'R': 'U', 'S': 'V', 'T': 'W', 'U': 'X',
+            'V': 'Y', 'W': 'Z', 'X': 'A', 'Y': 'B', 'Z': 'C'
+        };
+
+        const atbashChart = {
+            'A': 'Z', 'B': 'Y', 'C': 'X', 'D': 'W', 'E': 'V', 'F': 'U', 'G': 'T',
+            'H': 'S', 'I': 'R', 'J': 'Q', 'K': 'P', 'L': 'O', 'M': 'N', 'N': 'M',
+            'O': 'L', 'P': 'K', 'Q': 'J', 'R': 'I', 'S': 'H', 'T': 'G', 'U': 'F',
+            'V': 'E', 'W': 'D', 'X': 'C', 'Y': 'B', 'Z': 'A'
+        };
+
+        const rot13Chart = {
+            'A': 'N', 'B': 'O', 'C': 'P', 'D': 'Q', 'E': 'R', 'F': 'S', 'G': 'T',
+            'H': 'U', 'I': 'V', 'J': 'W', 'K': 'X', 'L': 'Y', 'M': 'Z', 'N': 'A',
+            'O': 'B', 'P': 'C', 'Q': 'D', 'R': 'E', 'S': 'F', 'T': 'G', 'U': 'H',
+            'V': 'I', 'W': 'J', 'X': 'K', 'Y': 'L', 'Z': 'M'
+        };
+
+        // Function to encrypt a message using a given chart
+        function encryptMessage(message, chart) {
+            let encryptedMessage = '';
+            for (let char of message.toUpperCase()) {
+                if (char in chart) {
+                    encryptedMessage += chart[char];
+                } else {
+                    encryptedMessage += char;
+                }
+            }
+            return encryptedMessage;
+        }
+
+        // Function to decrypt a message using a given chart
+        function decryptMessage(encryptedMessage, chart) {
+            let decryptedMessage = '';
+            for (let char of encryptedMessage.toUpperCase()) {
+                if (char in chart) {
+                    decryptedMessage += chart[char];
+                } else {
+                    decryptedMessage += char;
+                }
+            }
+            return decryptedMessage;
+        }
+
+        // Clear all fields
+        function clearFields() {
+            document.getElementById("selectedCipher").selectedIndex = 0;
+            document.getElementById("messageToProcess").value = "";
+            document.getElementById("outputMessage").value = "";
+            const cipherCharts = document.querySelectorAll(".cipher-chart");
+            cipherCharts.forEach(chart => chart.style.display = "none");
+        }
+
+        // Button click event handlers
+        document.getElementById("encryptButton").addEventListener("click", function () {
+            const selectedCipher = document.getElementById("selectedCipher").value;
+            const messageToProcess = document.getElementById("messageToProcess").value;
+            let result;
+            if (selectedCipher === "caesar") {
+                result = encryptMessage(messageToProcess, caesarChart);
+            } else if (selectedCipher === "atbash") {
+                result = encryptMessage(messageToProcess, atbashChart);
+            } else if (selectedCipher === "rot13") {
+                result = encryptMessage(messageToProcess, rot13Chart);
+            } else if (selectedCipher === "vigenere") {
+                alert("Vigenère cipher not supported in this example.");
+                return;
+            }
+            document.getElementById("outputMessage").value = result;
+        });
+
+        document.getElementById("decryptButton").addEventListener("click", function () {
+            const selectedCipher = document.getElementById("selectedCipher").value;
+            const messageToProcess = document.getElementById("messageToProcess").value;
+            let result;
+            if (selectedCipher === "caesar") {
+                result = decryptMessage(messageToProcess, caesarChart);
+            } else if (selectedCipher === "atbash") {
+                result = decryptMessage(messageToProcess, atbashChart);
+            } else if (selectedCipher === "rot13") {
+                result = decryptMessage(messageToProcess, rot13Chart);
+            } else if (selectedCipher === "vigenere") {
+                alert("Vigenère cipher not supported in this example.");
+                return;
+            }
+            document.getElementById("outputMessage").value = result;
+        });
+
+        document.getElementById("clearButton").addEventListener("click", function () {
+            clearFields();
+        });
+
+        // Show/hide cipher charts based on selection
+        document.getElementById("selectedCipher").addEventListener("change", function () {
+            const selectedCipher = document.getElementById("selectedCipher").value;
+            const cipherCharts = document.querySelectorAll(".cipher-chart");
+            cipherCharts.forEach(chart => chart.style.display = "none");
+            if (selectedCipher === "caesar") {
+                document.getElementById("caesarChart").style.display = "block";
+            } else if (selectedCipher === "atbash") {
+                document.getElementById("atbashChart").style.display = "block";
+            } else if (selectedCipher === "rot13") {
+                document.getElementById("rot13Chart").style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>

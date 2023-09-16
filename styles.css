@@ -1,0 +1,41 @@
+body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: rgb(69, 25, 82);
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgb(102, 37, 73);
+            border: 1px solid rgb(174, 68, 90);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        label, input, textarea, select, button {
+            display: block;
+            margin-bottom: 10px;
+            background-color: rgb(243, 159, 90);
+            color: rgb(69, 25, 82);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        button {
+            background-color: rgb(69, 25, 82);
+            color: white;
+            cursor: pointer;
+        }
+        .cipher-chart {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgb(174, 68, 90);
+            border: 1px solid rgb(102, 37, 73);
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            display: none; /* Initially hide cipher charts */
+        }
+        textarea {
+            resize: none;
+        }
